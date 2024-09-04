@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34526.213
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alset_Research", "Alset_Research\Alset_Research.csproj", "{1E666ACD-BE7F-4FF0-A661-6789A885F520}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1E666ACD-BE7F-4FF0-A661-6789A885F520}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E666ACD-BE7F-4FF0-A661-6789A885F520}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E666ACD-BE7F-4FF0-A661-6789A885F520}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E666ACD-BE7F-4FF0-A661-6789A885F520}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {76D8B54F-B629-4142-BC5E-A31F0480F758}
+	EndGlobalSection
+EndGlobal
