@@ -1,0 +1,48 @@
+﻿@{
+    ViewData["Title"] = "Upload your Journal";
+    // https://procodeguide.com/programming/file-upload-in-aspnet-core/
+}
+<br />
+<br />
+<div class="container text-center">
+    <div class="row">
+        <h1>Journal Uploader</h1>
+
+        <hr />  <br /><br />
+        <label>Upload your Journal File here.</label>
+        <form method="post" enctype="multipart/form-data" asp-action="methodAction">
+            <label for="postedFile" class="form-label">(PDF format file only)</label>
+            <br /><br />
+            <input type="file" name="postedFile" id="TheFile" accept=".pdf" required class="form-control form-control-lg">
+            <br />
+            <span id="message"></span>
+            @if (ViewBag.Message != null)
+            {
+                @Html.Raw(ViewBag.Message)
+            }
+            <br />
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary rounded submit form-control " id="btn_submit">
+                    <i class="bi bi-floppy-fill"></i>
+                    Upload the Journal
+                </button>
+            </div>
+
+            <div style="display: inline-block;">
+                <br />
+                <a href="@Url.Action("Index", "Home") " class="btn btn-secondary rounded">
+                    <i class="bi bi-house-fill"></i>
+                    Go back to index
+                </a>
+                <a href="@Url.Action("Index", "Home") " class="btn btn-secondary rounded">
+                    <i class="bi bi-list"></i>
+                    Check Journals
+                </a>
+
+            </div>
+        </form>
+
+    </div>
+</div>
+
+
