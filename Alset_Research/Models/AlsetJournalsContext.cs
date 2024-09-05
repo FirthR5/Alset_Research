@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Alset_Research.DTO;
 using Microsoft.EntityFrameworkCore;
 
 namespace Alset_Research.Models;
@@ -71,6 +72,7 @@ public partial class AlsetJournalsContext : DbContext
 
         OnModelCreatingPartial(modelBuilder);
     }
-
+    public DbSet<ResearchDTO> ResearchDTOs { get; set; }
+    public DbSet<JournalDTO> JournalsDTOs { get; set; }
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 }
