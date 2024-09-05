@@ -59,7 +59,7 @@ namespace Alset_Research.Controllers
         public IActionResult Login()
 		{
             var my_user = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            if (!my_user.IsNullOrEmpty()) return View();
+            if (my_user.IsNullOrEmpty()) return View();
             else return RedirectToAction("Login", "Home");
 		}
 		[HttpPost]
