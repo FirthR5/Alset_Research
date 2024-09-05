@@ -2,7 +2,7 @@
     ViewData["Title"] = "Research's Journal";
 }
 
-<style type="text/css">
+@* <style type="text/css">
     #pdf_container {
         background: #ccc;
         text-align: center;
@@ -12,79 +12,123 @@
         overflow: auto;
     }
 </style>
+ *@
+<style  type="text/css">
+	.card {
+		min-height: 150px;
+		display: flex;
+		flex-direction: column;
+	}
 
+	.card-body {
+		flex: 1; 
+	}
+</style>
 <div class="text-center">
-    <h1 class="display-4">Research's Journal</h1>
-    @* <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p> *@
-    <p></p>
+    <section id="HomeHeader">
+	  <h1 class="display-4">Research's Journal</h1>
+		@* <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p> *@
+		<p></p>
+    </section>
+	<hr />
+    <section id="HomeResearchers">
+		<h2>List of Researchers</h2>
 
-    @* <embed src="jourVnals/Paul-Li-MSR-Tech-Report.pdf" height="1000" width="700"/> *@
+		<div class="container mt-4">
+			<div class="row">
+				@foreach (var researcher in Model)
+				{
+					<div class="col-md-4 mb-4">
+						<div class="card">
+							<div class="card-body">
+								<h5 class="card-title">@researcher.FirstName @researcher.LastName</h5>
+								<p class="card-text">
+									@* <strong>Researcher ID:</strong> @researcher.ResearcherId<br> *@
+									<strong>Follow Status:</strong> @(researcher.FollowStatus == 1 ? "Following" : "Not Following")
+								</p>
+								@if (researcher.FollowStatus == 0) // Muestra el botón solo si FollowStatus es 0
+								{
+									<a href="@Url.Action("FollowResearch", "Home", new { IdResearch = @researcher.ResearcherId })" class="btn btn-primary">Follow</a>
 
-	@* <div id="pdfViewer" style="width: 100%; height: 100px;"></div> *@
-    <div>
+								}
+							</div>
+						</div>
+					</div>
+				}
+			</div>
+
+    </section>
+	<hr />
+    <section id="HomeJournals">
+		<h2>Journals</h2>
+		<button>Check all Journals</button>
+		@* <embed src="jourVnals/Paul-Li-MSR-Tech-Report.pdf" height="1000" width="700"/> *@
+
+		@* <div id="pdfViewer" style="width: 100%; height: 100px;"></div> *@
 
         @* <input type="button" id="btnPreview" value="Preview PDF Document" onclick="LoadPdfFromUrl('@Url.Content("~/journals/Paul-Li-MSR-Tech-Report.pdf")')" /> *@
         @* <input type="button" id="btnPreview" value="Preview PDF Document" onclick="LoadPdfFromUrl('@Url.Content("~/Files/Sample.pdf")')" /> *@
-        <hr />
-        <div id="pdf_container"></div>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.min.js"></script>
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf_viewer.min.css" rel="stylesheet" type="text/css" />
-        <script type="text/javascript">
-            var pdfjsLib = window['pdfjs-dist/build/pdf'];
-            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.worker.min.js';
-            var pdfDoc = null;
-            var scale = 1; //Set Scale for zooming PDF.
-            var resolution = 1; //Set Resolution to Adjust PDF clarity.
-
-            function LoadPdfFromUrl(url) {
-                //Read PDF from URL.
-                pdfjsLib.getDocument(url).promise.then(function (pdfDoc_) {
-                    pdfDoc = pdfDoc_;
-
-                    //Reference the Container DIV.
-			LoadPdfFromUrl('@Url.Content("~/journals/Paul-Li-MSR-Tech-Report.pdf")')")
-                    var pdf_container = document.getElementById("pdf_container");
-                    pdf_container.style.display = "block";
-
-                    //Loop and render all pages.
-                    for (var i = 1; i <= pdfDoc.numPages; i++) {
-                        RenderPage(pdf_container, i);
-                    }
-                });
-            };
-            function RenderPage(pdf_container, num) {
-                pdfDoc.getPage(num).then(function (page) {
-                    //Create Canvas element and append to the Container DIV.
-                    var canvas = document.createElement('canvas');
-                    canvas.id = 'pdf-' + num;
-                    ctx = canvas.getContext('2d');
-                    pdf_container.appendChild(canvas);
-
-                    //Create and add empty DIV to add SPACE between pages.
-                    var spacer = document.createElement("div");
-                    spacer.style.height = "20px";
-                    pdf_container.appendChild(spacer);
-
-                    //Set the Canvas dimensions using ViewPort and Scale.
-                    var viewport = page.getViewport({ scale: scale });
-                    canvas.height = resolution * viewport.height;
-                    canvas.width = resolution * viewport.width;
-
-                    //Render the PDF page.
-                    var renderContext = {
-                        canvasContext: ctx,
-                        viewport: viewport,
-                        transform: [resolution, 0, 0, resolution, 0, 0]
-                    };
-
-                   page.render(renderContext);
-                });
-            };
-            LoadPdfFromUrl('@Url.Content("~/journals/Paul-Li-MSR-Tech-Report.pdf")')
-
-        </script>
-    </div>
+        @* <div id="pdf_container"></div> *@
+    </section> 
+  
  </div>
 
+
+@* <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf_viewer.min.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript">
+	var pdfjsLib = window['pdfjs-dist/build/pdf'];
+	pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.worker.min.js';
+	var pdfDoc = null;
+	var scale = 1; //Set Scale for zooming PDF.
+	var resolution = 1; //Set Resolution to Adjust PDF clarity.
+
+	function LoadPdfFromUrl(url) {
+		//Read PDF from URL.
+		pdfjsLib.getDocument(url).promise.then(function (pdfDoc_) {
+			pdfDoc = pdfDoc_;
+
+			//Reference the Container DIV.
+			var pdf_container = document.getElementById("pdf_container");
+			pdf_container.style.display = "block";
+
+			//Loop and render all pages.
+			for (var i = 1; i <= pdfDoc.numPages; i++) {
+				RenderPage(pdf_container, i);
+			}
+		});
+	};
+	function RenderPage(pdf_container, num) {
+		pdfDoc.getPage(num).then(function (page) {
+			//Create Canvas element and append to the Container DIV.
+			var canvas = document.createElement('canvas');
+			canvas.id = 'pdf-' + num;
+			ctx = canvas.getContext('2d');
+			pdf_container.appendChild(canvas);
+
+			//Create and add empty DIV to add SPACE between pages.
+			var spacer = document.createElement("div");
+			spacer.style.height = "20px";
+			pdf_container.appendChild(spacer);
+
+			//Set the Canvas dimensions using ViewPort and Scale.
+			var viewport = page.getViewport({ scale: scale });
+			canvas.height = resolution * viewport.height;
+			canvas.width = resolution * viewport.width;
+
+			//Render the PDF page.
+			var renderContext = {
+				canvasContext: ctx,
+				viewport: viewport,
+				transform: [resolution, 0, 0, resolution, 0, 0]
+			};
+
+		   page.render(renderContext);
+		});
+	};
+
+	LoadPdfFromUrl('@Url.Content("~/journals/Paul-Li-MSR-Tech-Report.pdf")')
+
+</script> *@
 
  @* https://www.aspsnippets.com/Articles/3553/Using-PDFjs-in-ASPNet-MVC/ *@
