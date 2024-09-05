@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Alset_Research.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/lib/bootstrap-icons/font/bootstrap-icons.min.css">
 </head>
 <body>
     <header>
@@ -23,10 +24,36 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Journals">Journals</a>
                         </li>
                     </ul>
                 </div>
+
+                <div class="d-flex">
+                    <ul class="navbar-nav navbar-collapse collapse  d-sm-inline-flex justify-content-between flex-grow-1" id="NavAuth">
+                        @if (!User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item"><a asp-area="" asp-controller="Home" asp-action="Login" class="nav-link nav-link fs-5">Log in <i class="bi bi-box-arrow-in-right"></i></a></li>
+                        }
+                        else
+                        {
+                            <li class="nav-item fs-5">
+                                <a class="nav-link " href="#" id="ddMenu_Notificaciones" role="button">
+                                    <i class="bi bi-bell-fill"></i>
+                                </a>
+                            </li>
+
+                            <li class="nav-item fs-5"><a asp-area="" asp-controller="Home" asp-action="LogOut" class="nav-link "><i class="bi bi-box-arrow-right"></i></a></li>
+                        }
+                    </ul>
+                </div>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#NavActions" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+
             </div>
         </nav>
     </header>
@@ -42,6 +69,8 @@
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
