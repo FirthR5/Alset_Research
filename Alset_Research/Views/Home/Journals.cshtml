@@ -8,6 +8,7 @@
         background: #ccc;
         text-align: center;
         padding: 5px;
+        width:100%;
         height: 500px;
         overflow: auto;
     }
@@ -22,15 +23,20 @@
 
 <div class="text-center">
 
-	<h1>Journals</h1>
+    <div class="m-5">
+		<h1>Journals</h1>
+    </div>
     <section id="HomeJournals">
         @foreach (var item in Model)
         {
-            <div class="journal-item">
+            <div class="journal-item card p-5 mb-5">
                 <h3>@Html.DisplayFor(modelItem => item.Title)</h3>
                 <p><strong>Description:</strong> @Html.DisplayFor(modelItem => item.Description)</p>
-                <p><strong>Fecha de Publicación:</strong> @Html.DisplayFor(modelItem => item.PublicationDate)</p>
-                <p><strong>Investigador:</strong> @Html.DisplayFor(modelItem => item.ResearcherFirstName) @Html.DisplayFor(modelItem => item.ResearcherLastName)</p>
+                <div class="d-flex justify-content-between">
+                    <p class="mb-0"><strong>Research:</strong> @Html.DisplayFor(modelItem => item.ResearcherFirstName) @Html.DisplayFor(modelItem => item.ResearcherLastName)</p>
+                    <p class="mb-0"><strong>Date:</strong> @item.PublicationDate.ToString("dd/MM/yyyy")</p>
+                </div>
+
                 <div  class="journal_container" id="pdf_container_@item.Id"> </div>
 
                 <script type="text/javascript">

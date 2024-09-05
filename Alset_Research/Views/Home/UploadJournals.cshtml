@@ -15,27 +15,24 @@
             <label for="postedFile" class="form-label">(PDF format file only)</label>
             <br /><br />
             
-            <div class="form-group">
+            <div class="form-group mb-4">
                 <label asp-for="Title" class="control-label"></label>
                 <input asp-for="Title" class="form-control" />
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
 
-            <div class="form-group">
+            <div class="form-group mb-4">
                 <label asp-for="Description" class="control-label"></label>
                 <textarea asp-for="Description" class="form-control"></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
-            <br />
-            <input type="file" asp-for="JournalPDF" accept=".pdf" required class="form-control form-control-lg">
-            <br />
+            <input type="file" asp-for="JournalPDF" accept=".pdf" required class="form-control form-control-lg mb-3">
             <span id="message"></span>
             @if (ViewBag.Message != null)
             {
                 @Html.Raw(ViewBag.Message)
             }
-            <br />
-            <div class="form-group">
+            <div class="form-group mt-5 mb-3">
                 <button type="submit" class="btn btn-primary rounded submit form-control " id="btn_submit">
                     <i class="bi bi-floppy-fill"></i>
                     Upload the Journal
@@ -43,7 +40,6 @@
             </div>
 
             <div style="display: inline-block;">
-                <br />
                 <a href="@Url.Action("Index", "Home")" class="btn btn-secondary rounded">
                     <i class="bi bi-house-fill"></i>
                     Go back to index
