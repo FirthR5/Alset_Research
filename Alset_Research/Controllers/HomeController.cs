@@ -2,7 +2,6 @@ using Alset_Research.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Diagnostics;
 using System.Security.Claims;
@@ -10,8 +9,8 @@ using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
 using Alset_Research.DTO;
 using Microsoft.Data.SqlClient;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Alset_Research.Controllers
 {
@@ -37,7 +36,6 @@ namespace Alset_Research.Controllers
             }
 
             int id = int.Parse(userId);
-
             var query = @"
                     DECLARE @UserId INT = @id;
                     SELECT U.Id AS ResearcherId, U.FirstName, U.LastName,
@@ -51,11 +49,9 @@ namespace Alset_Research.Controllers
                 ";
             var userIdParam = new SqlParameter("@id", id);
 
-
             List<ResearchDTO> result =  _context.ResearchDTOs
                 .FromSqlRaw(query, userIdParam)
                 .ToList();
-
 
             return View(result);
         }
@@ -63,9 +59,8 @@ namespace Alset_Research.Controllers
         public IActionResult Login()
 		{
             var my_user = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            //if (!my_user.IsNullOrEmpty()) return View();
-            //else return RedirectToAction("Login", "Home");
-            return View();
+            if (!my_user.IsNullOrEmpty()) return View();
+            else return RedirectToAction("Login", "Home");
 		}
 		[HttpPost]
         public async Task<IActionResult> Login(LoginDTO data)
@@ -99,7 +94,6 @@ namespace Alset_Research.Controllers
         }
 
         public async Task<IActionResult> LogOut()
-
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Login", "Home");
@@ -108,7 +102,6 @@ namespace Alset_Research.Controllers
 
 
         #region UploadJournals
-        
         public IActionResult UploadJournals() { 
 
 			return View();
@@ -134,7 +127,7 @@ namespace Alset_Research.Controllers
             await _context.SaveChangesAsync();
 
 			return View();
-		    }
+        }
 		private async Task<string> UploadJournal( IFormFile file)
 		{
             string folderPath = "journals/";
@@ -142,7 +135,6 @@ namespace Alset_Research.Controllers
             folderPath += filename;
 
 			string serverFolder = Path.Combine(_webHostEnvironment.WebRootPath, folderPath);
-
 			await file.CopyToAsync(new FileStream(serverFolder, FileMode.Create));
 
 			return filename;
@@ -153,8 +145,7 @@ namespace Alset_Research.Controllers
 		public IActionResult Journals()
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            if (userId == null)
-            {
+            if (userId == null) {
                 return RedirectToAction("Login", "Home");
             }
             int id = int.Parse(userId);
@@ -165,14 +156,11 @@ namespace Alset_Research.Controllers
                 FROM Journals J
                 JOIN Followers F ON J.UserId = F.ResearcherId
                 JOIN Users U ON J.UserId = U.Id
-                WHERE F.FollowerId = @id;
-                                    ";
+                WHERE F.FollowerId = @id;";
             var userIdParam = new SqlParameter("@id", id);
-
             List<JournalDTO> result =  _context.JournalsDTOs
                 .FromSqlRaw(query, userIdParam)
                 .ToList();
-
 
             return View(result);
         }
