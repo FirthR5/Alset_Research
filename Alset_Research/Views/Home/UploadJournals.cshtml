@@ -1,4 +1,5 @@
-﻿@{
+﻿@model Alset_Research.DTO.UploadJournalDTO;
+@{
     ViewData["Title"] = "Upload your Journal";
     // https://procodeguide.com/programming/file-upload-in-aspnet-core/
 }
@@ -10,10 +11,25 @@
 
         <hr />  <br /><br />
         <label>Upload your Journal File here.</label>
-        <form method="post" enctype="multipart/form-data" asp-action="methodAction">
+        <form method="post" enctype="multipart/form-data" asp-action="UploadJournals">
             <label for="postedFile" class="form-label">(PDF format file only)</label>
             <br /><br />
-            <input type="file" name="postedFile" id="TheFile" accept=".pdf" required class="form-control form-control-lg">
+            
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <textarea asp-for="Description" class="form-control"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+
+            <br />
+            <input type="file" asp-for="JournalPDF" accept=".pdf" required class="form-control form-control-lg">
             <br />
             <span id="message"></span>
             @if (ViewBag.Message != null)
@@ -30,11 +46,11 @@
 
             <div style="display: inline-block;">
                 <br />
-                <a href="@Url.Action("Index", "Home") " class="btn btn-secondary rounded">
+                <a href="@Url.Action("Index", "Home")" class="btn btn-secondary rounded">
                     <i class="bi bi-house-fill"></i>
                     Go back to index
                 </a>
-                <a href="@Url.Action("Index", "Home") " class="btn btn-secondary rounded">
+                <a href="@Url.Action("Index", "Home")" class="btn btn-secondary rounded">
                     <i class="bi bi-list"></i>
                     Check Journals
                 </a>
